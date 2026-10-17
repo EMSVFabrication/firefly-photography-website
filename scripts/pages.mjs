@@ -49,7 +49,7 @@ export function home(C) {
     const strip = services.flatMap((s) => s.gallery.slice(0, 3)).slice(0, 14);
     return { path: '/', html: page(C, {
         path: '/',
-        title: 'Firefly Photography | Denver & Littleton Photographer — Weddings, Families, Seniors',
+        title: 'Firefly Photography | Denver & Littleton Photographer',
         description: 'Luxury, light-filled photography by Shelly Bowman in Denver, Littleton and across Colorado — weddings, elopements, families, seniors, newborns, maternity and headshots.',
         image: HOME.hero[0],
         body: `<section class="hero" aria-label="Welcome">
@@ -223,7 +223,7 @@ ${posts.length ? `<section class="section journal-teaser journal-teaser--tight">
 
 export function portfolio(C) {
     return { path: '/portfolio/', html: page(C, {
-        path: '/portfolio/', title: 'Portfolio | Weddings, Families, Seniors & More — Firefly Photography, Denver',
+        path: '/portfolio/', title: 'Portfolio | Firefly Photography, Denver & Littleton',
         description: 'Explore Firefly Photography’s galleries: weddings, elopements, families, high school seniors, newborns, maternity and headshots in Denver, Littleton and Colorado.',
         image: C.services[0].cover, ld: [crumbs(C, [['Home', '/'], ['Portfolio', '/portfolio/']])],
         body: `<section class="page-hero page-hero--plain">
@@ -252,7 +252,7 @@ export function experience(C) {
     const bts = C.EXPERIENCE.moments || [];
     const kind = C.REVIEWS.filter((r) => r.tags?.includes('experience')).slice(0, 4);
     return { path: '/experience/', html: page(C, {
-        path: '/experience/', title: 'The Firefly Experience | Relaxed, Guided Photo Sessions in Denver — Firefly Photography',
+        path: '/experience/', title: 'The Firefly Experience | Guided, Relaxed Photo Sessions',
         description: 'What it’s like to be photographed by Shelly Bowman: gentle direction, beautiful light, real laughter and an organized process from the first hello to your final gallery.',
         image: C.HOME.hero[0], ld: [crumbs(C, [['Home', '/'], ['The Firefly Experience', '/experience/']]), faqLd(C.FAQS)],
         body: `<section class="page-hero page-hero--plain page-hero--xp">
@@ -305,8 +305,8 @@ export function pricing(C) {
     const pk = C.PACKAGES.filter((p) => !p.boudoir || C.SETTINGS.showBoudoir);
     const photoFor = { portrait: C.services[2].cover, wedding: C.services[0].cover, elopement: C.services[1].cover, boudoir: C.services.find((s) => s.boudoir)?.cover };
     return { path: '/pricing/', html: page(C, {
-        path: '/pricing/', title: 'Pricing & Packages | Firefly Photography — Denver & Littleton, CO',
-        description: 'Photography packages by Firefly Photography: portrait & lifestyle sessions, full wedding days, micro weddings & elopements and boudoir in Denver, Littleton and Colorado.',
+        path: '/pricing/', title: 'Pricing & Packages | Firefly Photography, Denver',
+        description: 'Firefly Photography packages: portrait & lifestyle sessions, wedding days, micro weddings & elopements and boudoir in Denver and Littleton.',
         image: C.services[0].gallery[1], ld: [crumbs(C, [['Home', '/'], ['Pricing', '/pricing/']]), faqLd(C.FAQS)],
         body: `<section class="page-hero page-hero--plain">
   ${mark('mark--page')}
@@ -353,7 +353,7 @@ ${faqBlock(C)}`,
 export function about(C) {
     const { ABOUT: A, BIZ } = C;
     return { path: '/about/', html: page(C, {
-        path: '/about/', title: 'About Shelly Bowman | Denver & Littleton Photographer — Firefly Photography',
+        path: '/about/', title: 'About Shelly Bowman | Firefly Photography',
         description: 'Meet Shelly Bowman, the photographer behind Firefly Photography in Denver and Littleton — an artistic eye, an easygoing personality and a genuine love of connection.',
         image: A.photo, ld: [crumbs(C, [['Home', '/'], ['About', '/about/']]), { '@context': 'https://schema.org', '@type': 'Person', name: BIZ.owner, jobTitle: 'Photographer', worksFor: { '@id': `${C.SITE}/#business` }, image: `${C.SITE}${A.photo.src}`, sameAs: [BIZ.instagram.url] }],
         body: `<section class="page-hero page-hero--plain page-hero--about">
@@ -432,7 +432,7 @@ ${C.REVIEWS.map((r, i) => `      <div class="reveal" style="--d:${i % 3}">${revi
 // ───────────────────────────────────────────── contact
 export function contact(C) {
     return { path: '/contact/', html: page(C, {
-        path: '/contact/', title: 'Inquire | Book a Photography Session — Firefly Photography, Denver & Littleton',
+        path: '/contact/', title: 'Inquire & Book a Session | Firefly Photography',
         description: 'Inquire about your wedding date or book a family, senior, newborn, maternity or headshot session with Firefly Photography in Denver and Littleton, Colorado.',
         noBook: true, ld: [crumbs(C, [['Home', '/'], ['Inquire', '/contact/']])],
         body: `${book(C, '', { standalone: true })}
@@ -465,7 +465,7 @@ const catChips = (C, on = '') => `<nav class="chips chips--light jcats" aria-lab
 export function journalIndex(C) {
     const [first, ...rest] = C.posts;
     return { path: '/journal/', html: page(C, {
-        path: '/journal/', title: 'The Journal | Colorado Photography Stories, Guides & Tips — Firefly Photography',
+        path: '/journal/', title: 'The Journal | Firefly Photography, Colorado',
         description: 'Real sessions, Colorado location guides, what-to-wear ideas and photography tips from Denver photographer Shelly Bowman.',
         image: first?.cover, ld: [crumbs(C, [['Home', '/'], ['Journal', '/journal/']])],
         body: `${journalHero(C, 'The <em>Journal</em>', 'Real sessions, Colorado location guides, styling ideas and a little behind-the-scenes — stories from behind the lens.')}

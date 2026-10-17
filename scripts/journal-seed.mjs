@@ -67,7 +67,7 @@ ${duo(['/img/maternity/06.webp', 'Maternity portrait in tall summer grass'], ['/
         category: 'newborns-maternity',
         status: 'published', publishAt: '2026-09-26T15:00:00.000Z',
         excerpt: 'Simple, stress-free tips for an in-home newborn session — what to wear, how to get your home ready, and why there’s no such thing as a “perfect” baby day.',
-        seoTitle: 'How to Prepare for a Newborn Photo Session | Denver Newborn Photographer',
+        seoTitle: 'Preparing for a Newborn Photo Session | Firefly Photography',
         seoDescription: 'Practical tips for an in-home newborn photography session in Denver: timing, what to wear, preparing your space and keeping baby comfortable.',
         cover: { src: '/img/newborn/07.webp', sm: '/img/newborn/07-sm.webp', w: 1500, h: 1002, alt: 'Parents smiling down at their newborn baby' },
         body: `

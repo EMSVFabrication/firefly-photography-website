@@ -28,14 +28,14 @@ Legend: [x] done · [~] done, waiting on Shelly/Brad for something · [ ] to do
 11. [x] Gallery viewer upgrades (editorial mixed layouts, captions/alt text, keyboard + swipe, smooth transitions).
 12. [x] About page: “Meet Shelly — The Heart Behind Firefly Photography”.
 13. [x] Pricing page: editorial package layout, proof-gallery explanation, value of the experience. Prices unchanged; list anything that needs Shelly's confirmation.
-14. [ ] Google reviews: research doc (Business Profile API vs Places API vs third-party), review data model, homepage carousel, Reviews page “Kind Words, Lasting Impressions”, read-on-Google and leave-a-review links.
+14. [x] Google reviews: research doc (Business Profile API vs Places API vs third-party), review data model, homepage carousel, Reviews page “Kind Words, Lasting Impressions”, read-on-Google and leave-a-review links.
 15. [ ] Inquiry form: name, email, phone, type, preferred date, location, vision; auto-confirmation email to the client; spam protection; every inquiry also saved to Firebase for the ERP.
 
 ## Priority Two — Journal, SEO, marketing
-16. [ ] The Journal: magazine-style index, category pages, article template (cover, full-width images, galleries), first articles drafted.
-17. [ ] SEO foundation: unique titles/descriptions, clean URLs, alt text, heading structure, structured data (LocalBusiness, Service, Article, Breadcrumb), sitemap, canonicals, robots, internal links, old-URL redirects.
-18. [ ] Google Analytics 4 + Search Console hooks (settings-driven; off until Shelly's IDs are entered).
-19. [ ] Mobile + performance pass: image sizes, lazy loading, fonts, animation cost, contrast, tap targets, forms.
+16. [x] The Journal: magazine-style index, category pages, article template (cover, full-width images, galleries), first articles drafted.
+17. [x] SEO foundation: unique titles/descriptions, clean URLs, alt text, heading structure, structured data (LocalBusiness, Service, Article, Breadcrumb), sitemap, canonicals, robots, internal links, old-URL redirects.
+18. [x] Google Analytics 4 + Search Console hooks (settings-driven; off until Shelly's IDs are entered).
+19. [x] Mobile + performance pass: image sizes, lazy loading, fonts, animation cost, contrast, tap targets, forms.
 
 ## ERP (Shelly's back office at /admin)
 20. [ ] Firebase layer: `firefly_*` collections, `firefly/` storage, rules block, one config module that can be switched to a new project.
