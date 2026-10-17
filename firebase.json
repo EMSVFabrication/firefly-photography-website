@@ -4,10 +4,102 @@
     "public": "public",
     "cleanUrls": true,
     "trailingSlash": true,
-    "ignore": ["firebase.json", "**/.*"],
+    "ignore": [
+      "firebase.json",
+      "**/.*"
+    ],
     "headers": [
-      { "source": "/img/**", "headers": [{ "key": "Cache-Control", "value": "public, max-age=2592000" }] },
-      { "source": "/assets/**", "headers": [{ "key": "Cache-Control", "value": "public, max-age=31536000, immutable" }] }
+      {
+        "source": "/img/**",
+        "headers": [
+          {
+            "key": "Cache-Control",
+            "value": "public, max-age=2592000"
+          }
+        ]
+      },
+      {
+        "source": "/assets/**",
+        "headers": [
+          {
+            "key": "Cache-Control",
+            "value": "public, max-age=31536000, immutable"
+          }
+        ]
+      }
+    ],
+    "redirects": [
+      {
+        "source": "/about",
+        "destination": "/about/",
+        "type": 301
+      },
+      {
+        "source": "/services-and-pricing",
+        "destination": "/pricing/",
+        "type": 301
+      },
+      {
+        "source": "/portfolio/weddings-and-elopements",
+        "destination": "/weddings/",
+        "type": 301
+      },
+      {
+        "source": "/portfolio/seniors-42lnx",
+        "destination": "/seniors/",
+        "type": 301
+      },
+      {
+        "source": "/portfolio/family-photos",
+        "destination": "/families/",
+        "type": 301
+      },
+      {
+        "source": "/portfolio/newborn",
+        "destination": "/newborns/",
+        "type": 301
+      },
+      {
+        "source": "/portfolio/headshots-and-modeling",
+        "destination": "/headshots/",
+        "type": 301
+      },
+      {
+        "source": "/portfolio/maternity",
+        "destination": "/maternity/",
+        "type": 301
+      },
+      {
+        "source": "/portfolio/weddings",
+        "destination": "/weddings/",
+        "type": 301
+      },
+      {
+        "source": "/portfolio/family",
+        "destination": "/families/",
+        "type": 301
+      },
+      {
+        "source": "/portfolio/seniors",
+        "destination": "/seniors/",
+        "type": 301
+      },
+      {
+        "source": "/portfolio/newborn",
+        "destination": "/newborns/",
+        "type": 301
+      },
+      {
+        "source": "/portfolio/headshots",
+        "destination": "/headshots/",
+        "type": 301
+      }
+    ],
+    "rewrites": [
+      {
+        "regex": "^/journal/[a-z0-9-]+/?$",
+        "destination": "/journal/story/index.html"
+      }
     ]
   }
 }

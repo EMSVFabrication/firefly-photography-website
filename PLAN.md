@@ -15,19 +15,19 @@ Legend: [x] done · [~] done, waiting on Shelly/Brad for something · [ ] to do
 ## Setup
 1. [x] Turn on Remote Control.
 2. [x] Turn the brief into this numbered plan.
-3. [ ] Study the sister projects (EMSV ERP, ASAP, BIC, STLFIT) and the shared Firebase; read open System Requests; save notes in `docs/notes.md`.
-4. [ ] Start a local git history (no remote) so every step has a safe checkpoint.
+3. [x] Study the sister projects (EMSV ERP, ASAP, BIC, STLFIT) and the shared Firebase; read open System Requests; save notes in `docs/notes.md`.
+4. [x] Start a local git history (no remote) so every step has a safe checkpoint.
 
 ## Priority One — core design
-5. [ ] Design system refresh: ivory / champagne / charcoal / soft gold palette, editorial serif + clean sans, spacing, buttons, section transitions. Fireflies kept and tuned (desktop + mobile, reduced-motion).
-6. [ ] Content model: reorganize `scripts/site.mjs` into services (Weddings, Elopements & Micro Weddings, Families, Seniors, Newborns, Maternity, Headshots & Branding, Boudoir on/off), Experience copy, process timeline, FAQs, About copy. Prices copied exactly.
-7. [ ] Homepage: full-screen photo opening with fireflies, short intro, specialty previews, “what makes working with me special”, editorial featured photos, reviews carousel, meet Shelly, Journal teasers, invitation to inquire.
-8. [ ] The Firefly Experience page (Shelly's philosophy copy, testimonials about comfort/fun, room for behind-the-scenes photos/video).
-9. [ ] “From the First Hello to Your Final Gallery” timeline — portrait process (15 favorites + proofs) and a separate wedding/elopement process.
-10. [ ] Service + portfolio pages for every specialty: editorial layouts with their own mood, intro, the experience, matching reviews, local SEO copy, one clear booking link.
-11. [ ] Gallery viewer upgrades (editorial mixed layouts, captions/alt text, keyboard + swipe, smooth transitions).
-12. [ ] About page: “Meet Shelly — The Heart Behind Firefly Photography”.
-13. [ ] Pricing page: editorial package layout, proof-gallery explanation, value of the experience. Prices unchanged; list anything that needs Shelly's confirmation.
+5. [x] Design system refresh: ivory / champagne / charcoal / soft gold palette, editorial serif + clean sans, spacing, buttons, section transitions. Fireflies kept and tuned (desktop + mobile, reduced-motion).
+6. [x] Content model: reorganize `scripts/site.mjs` into services (Weddings, Elopements & Micro Weddings, Families, Seniors, Newborns, Maternity, Headshots & Branding, Boudoir on/off), Experience copy, process timeline, FAQs, About copy. Prices copied exactly.
+7. [x] Homepage: full-screen photo opening with fireflies, short intro, specialty previews, “what makes working with me special”, editorial featured photos, reviews carousel, meet Shelly, Journal teasers, invitation to inquire.
+8. [x] The Firefly Experience page (Shelly's philosophy copy, testimonials about comfort/fun, room for behind-the-scenes photos/video).
+9. [x] “From the First Hello to Your Final Gallery” timeline — portrait process (15 favorites + proofs) and a separate wedding/elopement process.
+10. [x] Service + portfolio pages for every specialty: editorial layouts with their own mood, intro, the experience, matching reviews, local SEO copy, one clear booking link.
+11. [x] Gallery viewer upgrades (editorial mixed layouts, captions/alt text, keyboard + swipe, smooth transitions).
+12. [x] About page: “Meet Shelly — The Heart Behind Firefly Photography”.
+13. [x] Pricing page: editorial package layout, proof-gallery explanation, value of the experience. Prices unchanged; list anything that needs Shelly's confirmation.
 14. [ ] Google reviews: research doc (Business Profile API vs Places API vs third-party), review data model, homepage carousel, Reviews page “Kind Words, Lasting Impressions”, read-on-Google and leave-a-review links.
 15. [ ] Inquiry form: name, email, phone, type, preferred date, location, vision; auto-confirmation email to the client; spam protection; every inquiry also saved to Firebase for the ERP.
 
