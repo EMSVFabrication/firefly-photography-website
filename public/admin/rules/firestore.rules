@@ -1,0 +1,97 @@
+rules_version = '2';
+
+// Firefly Photography — Firestore rules. This whole file is what Shelly's own Firebase project gets at launch.
+// While Firefly borrows the shared ASAP/BIC project, only the block between the start/end lines is copied into
+// ..\BIC App\firestore.rules (npm run sync-rules) and deployed from there.
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // ======================================================================== Firefly Photography — start
+    // Website: firefly-photography.web.app (later www.fireflyphotography.org). Source: ..\Firefly Photography website.
+    // ERP (/admin) people: firefly_users/{uid} with role 'owner' | 'editor' and active == true.
+    // TEST PERIOD SWITCH (owner 2026-10-17: "do not require a log in until we launch"): true = anyone may use the ERP.
+    // Lock at launch: set to false here AND AUTH_REQUIRED = true in public/admin/js/config.js, then sync + deploy.
+    function fireflyOpenForTesting() {
+      return true;
+    }
+    function fireflyUser() {
+      return get(/databases/$(database)/documents/firefly_users/$(request.auth.uid)).data;
+    }
+    function fireflyStaff() {
+      return fireflyOpenForTesting() || (request.auth != null
+        && exists(/databases/$(database)/documents/firefly_users/$(request.auth.uid))
+        && fireflyUser().active == true && fireflyUser().role in ['owner', 'editor']);
+    }
+    function fireflyOwner() {
+      return fireflyOpenForTesting() || (request.auth != null
+        && exists(/databases/$(database)/documents/firefly_users/$(request.auth.uid))
+        && fireflyUser().active == true && fireflyUser().role == 'owner');
+    }
+    function ffStr(v, max) { return v is string && v.size() <= max; }
+
+    // the site's editable content: one doc per area ({ value, updatedAt, updatedBy })
+    match /firefly_site/{key} {
+      allow read: if true;
+      allow write: if fireflyStaff() && key in ['business', 'settings', 'packages', 'services', 'experience', 'process', 'about', 'home', 'faqs', 'categories'];
+    }
+    // Journal articles: the public reads published ones; staff read and write all
+    match /firefly_journal/{id} {
+      allow read: if resource.data.status == 'published' || fireflyStaff();
+      allow write: if fireflyStaff();
+    }
+    // Google reviews shown on the site
+    match /firefly_reviews/{id} {
+      allow read: if true;
+      allow write: if fireflyStaff();
+    }
+    // the photo library (files are in Storage under firefly/media/)
+    match /firefly_media/{id} {
+      allow read: if true;
+      allow write: if fireflyStaff();
+    }
+    // inquiries from the website form: anyone may send one well-formed inquiry; only staff read them
+    match /firefly_inquiries/{id} {
+      allow create: if request.resource.data.keys().hasOnly(['name', 'email', 'phone', 'session', 'date', 'location', 'message', 'source', 'page', 'status', 'createdAt', 'device'])
+        && ffStr(request.resource.data.name, 300) && request.resource.data.name.size() > 0
+        && ffStr(request.resource.data.email, 300) && request.resource.data.email.matches('^[^@\\s]+@[^@\\s]+\\.[^@\\s]+$')
+        && ffStr(request.resource.data.message, 5000)
+        && request.resource.data.status == 'new';
+      allow read, update, delete: if fireflyStaff();
+    }
+    // ERP people (roles). Each person may read their own record; owners manage everyone.
+    match /firefly_users/{uid} {
+      allow read: if fireflyOwner() || (request.auth != null && request.auth.uid == uid);
+      allow write: if fireflyOwner();
+    }
+    // small shared records: firebase (which project is live), publish (the Publish button's state), …
+    match /firefly_meta/{id} {
+      allow read: if true;
+      allow write: if fireflyStaff();
+    }
+    // Publish requests from the ERP; the server (Cloud Function) does the rest
+    match /firefly_publish/{id} {
+      allow read: if fireflyStaff();
+      allow create: if fireflyStaff();
+    }
+    // The "Report / Request" button (TEST PERIOD: the site has no sign-in, so anyone may ADD a well-formed note, read
+    // them, and mark one working/done; Claude reads them and marks them done when built). Remove before launch.
+    match /firefly_requests/{id} {
+      allow read: if true;
+      allow create: if request.resource.data.keys().hasOnly(['kind', 'text', 'page', 'pageLabel', 'status', 'byName', 'createdAt', 'device', 'errors', 'hasPicture', 'site'])
+        && request.resource.data.kind in ['bug', 'change']
+        && request.resource.data.text is string && request.resource.data.text.size() >= 3 && request.resource.data.text.size() <= 4000
+        && request.resource.data.page is string && request.resource.data.page.size() <= 40
+        && request.resource.data.status == 'new'
+        && request.resource.data.errors is list && request.resource.data.errors.size() <= 15;
+      allow update: if request.resource.data.diff(resource.data).affectedKeys()
+        .hasOnly(['status', 'workingAt', 'workingBy', 'doneAt', 'doneBy', 'doneNote', 'updatedAt', 'updatedBy'])
+        && request.resource.data.status in ['new', 'working', 'done'];
+      allow delete: if fireflyOwner() && !fireflyOpenForTesting();
+      match /picture/{pic} {
+        allow read: if true;
+        allow create: if pic == 'screen' && request.resource.data.keys().hasOnly(['dataUrl', 'width', 'height'])
+          && request.resource.data.dataUrl is string && request.resource.data.dataUrl.size() < 950000;
+      }
+    }
+    // ======================================================================== Firefly Photography — end
+  }
+}

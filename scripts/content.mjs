@@ -44,12 +44,38 @@ async function list(collection) {
     return out;
 }
 
+/** the published Journal articles (the rules only let the public read those) */
+async function published() {
+    const u = `https://firestore.googleapis.com/v1/projects/${FIREBASE.projectId}/databases/(default)/documents:runQuery?key=${FIREBASE.apiKey}`;
+    const r = await fetch(u, { method: 'POST', headers: { 'Content-Type': 'application/json' }, signal: AbortSignal.timeout(20000),
+        body: JSON.stringify({ structuredQuery: { from: [{ collectionId: 'firefly_journal' }], where: { fieldFilter: { field: { fieldPath: 'status' }, op: 'EQUAL', value: { stringValue: 'published' } } } } }) });
+    if (!r.ok) throw new Error(`firefly_journal: HTTP ${r.status}`);
+    return (await r.json()).filter((x) => x.document).map((x) => ({ id: x.document.name.split('/').pop(), ...fields(x.document.fields) }));
+}
+
+/** which project is live: firefly_meta/firebase in the configured project can point at a newer one (ERP → Move Firebase) */
+export async function activeFirebase() {
+    try {
+        const r = await fetch(`https://firestore.googleapis.com/v1/projects/${FIREBASE.projectId}/databases/(default)/documents/firefly_meta/firebase?key=${FIREBASE.apiKey}`, { signal: AbortSignal.timeout(15000) });
+        if (!r.ok) return FIREBASE;
+        const d = fields((await r.json()).fields);
+        if (d.active?.projectId && d.active.apiKey && d.active.projectId !== FIREBASE.projectId) {
+            console.warn(`Firebase has moved to ${d.active.projectId} — using it. (Update firebase/config.json to match.)`);
+            Object.assign(FIREBASE, d.active);
+        }
+    } catch { /* offline: keep the file's project */ }
+    return FIREBASE;
+}
+
 export async function loadContent() {
     const C = structuredClone(SEED);
     const from = { seed: true, erp: [] };
     if (process.env.FF_OFFLINE === '1') return { C, from };
     try {
-        const [site, reviews, journal] = await Promise.all([list('firefly_site'), list('firefly_reviews'), list('firefly_journal')]);
+        await activeFirebase();
+        const got = await Promise.allSettled([list('firefly_site'), list('firefly_reviews'), published()]);
+        got.filter((g) => g.status === 'rejected').forEach((g) => console.warn(`(database: ${g.reason.message} — using the seed for that part)`));
+        const [site, reviews, journal] = got.map((g) => (g.status === 'fulfilled' ? g.value : []));
         for (const d of site) {
             const k = CONTENT_KEYS[d.id];
             if (k && d.value !== undefined && d.value !== null) { C[k] = Array.isArray(C[k]) || typeof d.value !== 'object' || Array.isArray(d.value) ? d.value : { ...C[k], ...d.value }; from.erp.push(d.id); }

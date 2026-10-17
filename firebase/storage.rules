@@ -1,0 +1,25 @@
+rules_version = '2';
+
+// Firefly Photography — Storage rules (see firestore.rules for how this file is used while sharing the BIC project).
+service firebase.storage {
+  match /b/{bucket}/o {
+    // ======================================================================== Firefly Photography — start
+    // TEST PERIOD SWITCH — keep it the same as fireflyOpenForTesting() in firestore.rules (true = no sign-in needed)
+    function fireflyOpenForTesting() {
+      return true;
+    }
+    function fireflyStaff() {
+      return fireflyOpenForTesting() || (request.auth != null
+        && firestore.exists(/databases/(default)/documents/firefly_users/$(request.auth.uid))
+        && firestore.get(/databases/(default)/documents/firefly_users/$(request.auth.uid)).data.active == true
+        && firestore.get(/databases/(default)/documents/firefly_users/$(request.auth.uid)).data.role in ['owner', 'editor']);
+    }
+    // firefly/media/<id>/<full|sm>.webp: the photo library (public — they're on the website)
+    match /firefly/{path=**} {
+      allow read: if true;
+      allow write: if fireflyStaff() && request.resource.contentType.matches('image/.*') && request.resource.size <= 20 * 1024 * 1024;
+      allow delete: if fireflyStaff();
+    }
+    // ======================================================================== Firefly Photography — end
+  }
+}

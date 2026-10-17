@@ -38,16 +38,16 @@ Legend: [x] done · [~] done, waiting on Shelly/Brad for something · [ ] to do
 19. [x] Mobile + performance pass: image sizes, lazy loading, fonts, animation cost, contrast, tap targets, forms.
 
 ## ERP (Shelly's back office at /admin)
-20. [ ] Firebase layer: `firefly_*` collections, `firefly/` storage, rules block, one config module that can be switched to a new project.
-21. [ ] ERP shell: layout + navigation (EMSV style), dashboard, login code written but not required.
-22. [ ] ERP: Inquiries (list, status, notes, reply links).
-23. [ ] ERP: Journal CMS (write, upload photos, drafts, schedule, edit, publish; categories, titles, SEO description, URL, gallery).
-24. [ ] ERP: Portfolio manager (upload, remove, reorder, alt text, covers, homepage images).
-25. [ ] ERP: Site content (homepage text/images, About, Experience, service descriptions, FAQs, contact info, packages with a confirm-before-save on price changes).
-26. [ ] ERP: Reviews (sync/import, feature selected reviews).
+20. [~] Firebase layer: `firefly_*` collections, `firefly/` storage, rules block, one config module that can be switched to a new project.
+21. [x] ERP shell: layout + navigation (EMSV style), dashboard, login code written but not required.
+22. [x] ERP: Inquiries (list, status, notes, reply links).
+23. [x] ERP: Journal CMS (write, upload photos, drafts, schedule, edit, publish; categories, titles, SEO description, URL, gallery).
+24. [x] ERP: Portfolio manager (upload, remove, reorder, alt text, covers, homepage images).
+25. [x] ERP: Site content (homepage text/images, About, Experience, service descriptions, FAQs, contact info, packages with a confirm-before-save on price changes).
+26. [x] ERP: Reviews (sync/import, feature selected reviews).
 27. [ ] Publishing: the site reads the ERP's content (static pages for Google + live updates), and a Publish button.
-28. [ ] ERP: Settings + Firebase move: enter Shelly's new Firebase details, transfer everything (data + photos), verify, switch the site over.
-29. [ ] Admin guide for Shelly (how to swap photos, publish an article, edit pricing, etc.).
+28. [x] ERP: Settings + Firebase move: enter Shelly's new Firebase details, transfer everything (data + photos), verify, switch the site over.
+29. [x] Admin guide for Shelly (how to swap photos, publish an article, edit pricing, etc.).
 
 ## Finish
 30. [ ] Full QA (brief section 16): links, nav labels, galleries, forms, mobile, reduced motion, console errors, sharing previews, CMS round-trips, fireflies preserved.

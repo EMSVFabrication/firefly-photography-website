@@ -268,14 +268,19 @@
   // ── A Journal story published after the last build (the address is /journal/<slug>/; Hosting shows this page)
   var live = document.querySelector('[data-live-article]');
   if (live && DB) {
-    var slug = location.pathname.replace(/^\/journal\/|\/$/g, '');
-    var q = { structuredQuery: { from: [{ collectionId: 'firefly_journal' }], where: { fieldFilter: { field: { fieldPath: 'slug' }, op: 'EQUAL', value: { stringValue: slug } } }, limit: 1 } };
+    var preview = new URLSearchParams(location.search).get('preview'); // the ERP's Preview button (drafts too)
+    var slug = preview || location.pathname.replace(/^\/journal\/|\/$/g, '');
+    var bySlug = { fieldFilter: { field: { fieldPath: 'slug' }, op: 'EQUAL', value: { stringValue: slug } } };
+    // the public may only read published stories, so the query has to ask for exactly those (a preview asks for any)
+    var where = preview ? bySlug : { compositeFilter: { op: 'AND', filters: [bySlug, { fieldFilter: { field: { fieldPath: 'status' }, op: 'EQUAL', value: { stringValue: 'published' } } }] } };
+    var q = { structuredQuery: { from: [{ collectionId: 'firefly_journal' }], where: where, limit: 1 } };
     fetch(DB + ':runQuery?key=' + fb.apiKey, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(q) })
       .then(function (r) { return r.json(); })
       .then(function (rows) {
         var row = (rows || []).filter(function (x) { return x.document; })[0];
         var a = row ? dec({ mapValue: row.document }) : null;
-        if (!a || a.status !== 'published' || Date.parse(a.publishAt) > Date.now()) throw new Error('not found');
+        if (!a || (!preview && (a.status !== 'published' || Date.parse(a.publishAt) > Date.now()))) throw new Error('not found');
+        if (preview) { var bar = document.createElement('p'); bar.className = 'center'; bar.style.cssText = 'position:fixed;left:0;right:0;bottom:0;z-index:60;margin:0;padding:10px;background:#f1d79f;color:#1b1917;font:600 13px/1.4 Manrope,sans-serif'; bar.textContent = 'Preview — ' + (a.status === 'published' ? (Date.parse(a.publishAt) > Date.now() ? 'scheduled' : 'published') : 'draft, not on the website yet'); document.body.appendChild(bar); }
         document.title = (a.seoTitle || a.title) + ' | Firefly Photography';
         var h = live.querySelector('.art-hero');
         if (a.cover && a.cover.src) { var im = document.createElement('img'); im.className = 'art-hero__bg'; im.src = a.cover.src; im.alt = a.cover.alt || ''; h.insertBefore(im, h.firstChild); }

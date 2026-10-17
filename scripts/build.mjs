@@ -6,12 +6,13 @@ import { dirname, join, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { FIREBASE, loadContent } from './content.mjs';
 import * as P from './pages.mjs';
-import { REDIRECTS, REQUESTS, SITE } from './site.mjs';
+import { REDIRECTS, REQUESTS, SEED, SITE } from './site.mjs';
 
 const ROOT = resolve(dirname(fileURLToPath(import.meta.url)), '..');
 const PUB = join(ROOT, 'public');
 const PHOTOS = JSON.parse(readFileSync(join(ROOT, 'scripts', 'photos.json'), 'utf8'));
 
+const FILE_FIREBASE = { ...FIREBASE }; // before a Firebase move pointer is followed
 const { C: raw, from } = await loadContent();
 const now = Date.now();
 
@@ -24,7 +25,8 @@ function cleanBody(html = '') {
         .replace(/\son\w+\s*=\s*("[^"]*"|'[^']*'|[^\s>]+)/gi, '')
         .replace(/(href|src)\s*=\s*("|')\s*(javascript|data|vbscript):[^"']*\2/gi, '$1="#"');
     h = h.replace(/<\/?([a-z0-9]+)([^>]*)>/gi, (tag, name) => (ALLOWED.has(name.toLowerCase()) ? tag : ''));
-    // only video embeds from YouTube / Vimeo
+    // only video embeds from YouTube / Vimeo (the ERP wraps them in a j-video box; the build makes its own)
+    h = h.replace(/<div class="j-video"[^>]*>\s*(<iframe[\s\S]*?<\/iframe>)\s*<\/div>/gi, '$1');
     h = h.replace(/<iframe[^>]*src="([^"]+)"[^>]*>(<\/iframe>)?/gi, (m, src) => (/^https:\/\/(www\.)?(youtube(-nocookie)?\.com|player\.vimeo\.com)\//.test(src)
         ? `<div class="j-video"><iframe src="${src}" title="Video" loading="lazy" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen></iframe></div>` : ''));
     // site photos get their size and a small version; uploads carry data-w / data-h / data-sm from the ERP
@@ -66,10 +68,23 @@ writeFileSync(join(PUB, 'robots.txt'), `User-agent: *\nAllow: /\nDisallow: /admi
 const fbPath = join(ROOT, 'firebase.json');
 const fb = JSON.parse(readFileSync(fbPath, 'utf8'));
 fb.hosting.redirects = REDIRECTS.map(([source, destination]) => ({ source, destination, type: 301 }));
+fb.hosting.headers = [
+    { source: '/img/**', headers: [{ key: 'Cache-Control', value: 'public, max-age=2592000' }] },
+    { source: '/assets/**', headers: [{ key: 'Cache-Control', value: 'public, max-age=31536000, immutable' }] },
+    { source: '/admin/**', headers: [{ key: 'Cache-Control', value: 'no-cache' }, { key: 'X-Robots-Tag', value: 'noindex, nofollow' }] },
+];
 fb.hosting.rewrites = [{ regex: '^/journal/[a-z0-9-]+/?$', destination: '/journal/story/index.html' }];
 writeFileSync(fbPath, `${JSON.stringify(fb, null, 2)}\n`);
 
-// the ERP reads the same Firebase settings
-if (existsSync(join(PUB, 'admin'))) writeFileSync(join(PUB, 'admin', 'firebase-config.js'), `// written by scripts/build.mjs from firebase/config.json\nexport const FIREBASE = ${JSON.stringify(FIREBASE, null, 2)};\n`);
+// the ERP: the same Firebase settings, the starting content (what it shows until something is saved), the site's own
+// photos (for the photo picker) and the rules (shown in Settings → System for a new project)
+const ADMIN = join(PUB, 'admin');
+if (existsSync(ADMIN)) {
+    writeFileSync(join(ADMIN, 'firebase-config.js'), `// written by scripts/build.mjs from firebase/config.json\nexport const FIREBASE = ${JSON.stringify(FILE_FIREBASE, null, 2)};\n`);
+    const library = Object.fromEntries(Object.entries(PHOTOS).map(([set, list]) => [set, list.map((p) => ({ src: `/img/${set}/${p.src}.webp`, sm: `/img/${set}/${p.src}-sm.webp`, w: p.w, h: p.h, alt: '' }))]));
+    writeFileSync(join(ADMIN, 'seed.json'), JSON.stringify({ ...SEED, PHOTOS: library }));
+    mkdirSync(join(ADMIN, 'rules'), { recursive: true });
+    for (const r of ['firestore.rules', 'storage.rules']) writeFileSync(join(ADMIN, 'rules', r), readFileSync(join(ROOT, 'firebase', r), 'utf8'));
+}
 
 console.log(`Built ${out.length} pages · ${posts.length} journal stories · ${services.reduce((s, x) => s + x.gallery.length, 0)} gallery photos · content: seed${from.erp.length ? ` + ERP (${from.erp.join(', ')})` : ''}.`);
