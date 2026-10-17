@@ -1,0 +1,10 @@
+{
+  "name": "firefly-photography-website",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "node scripts/build.mjs",
+    "serve": "node scripts/serve.mjs",
+    "deploy": "node scripts/build.mjs && node \"../BIC App/node_modules/firebase-tools/lib/bin/firebase.js\" deploy --only hosting:firefly-photography --project bic-dev-e2618 --non-interactive"
+  }
+}
