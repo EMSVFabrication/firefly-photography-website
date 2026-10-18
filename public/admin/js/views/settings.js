@@ -206,6 +206,19 @@ async function system(el) {
             row(rules, 'Firefly database rules', rules ? 'Saving works.' : 'Not deployed yet in this project, so the ERP can’t save. Brad/Claude: npm run sync-rules, then npm run deploy-rules.'),
             row(!!pub?.publishedAt, 'Publishing service', pub?.publishedAt ? `Last published ${fmt(pub.publishedAt)}.` : 'The “Publish to website” button needs the Firefly publishing function deployed (npm run deploy-functions). Until then, Brad/Claude publish with npm run deploy.'),
             row(AUTH_REQUIRED, 'ERP sign-in required', AUTH_REQUIRED ? 'Only people in People & sign-in can open the ERP.' : 'Off during testing — switched on at launch.'))),
+        h('div.card', h('h2', 'Demo data (testing)'),
+            h('p.muted', { style: { margin: '6px 0 12px' } }, 'Fills every screen with sample clients (Brad Dinges, Danielle Fritz, Avrie Fritz): inquiries, Journal stories (published, scheduled and a draft), reviews marked “(demo)”, people and library photos. Everything is tagged as demo, never reaches a real inbox, and is left out of the website automatically once it launches. Press “Publish to website” afterwards to see it on the site.'),
+            h('div.row', h('button.btn.btn--primary', { type: 'button', on: { click: async (e) => {
+                const b = e.currentTarget; b.disabled = true; b.textContent = 'Adding…';
+                try { const { addDemo } = await import('../demo.js'); await addDemo(); toast('Demo data added. Press “Publish to website” to see it on the site.'); } catch (x) { dbError(x, 'Adding demo data'); }
+                b.disabled = false; b.textContent = 'Add demo data';
+            } } }, 'Add demo data'),
+            h('button.btn.btn--ghost', { type: 'button', on: { click: async (e) => {
+                if (!(await confirmBox('Remove all demo data?', 'Every record marked as demo is deleted. Real content is not touched.', { ok: 'Remove demo data', danger: true }))) return;
+                const b = e.currentTarget; b.disabled = true;
+                try { const { removeDemo } = await import('../demo.js'); const n = await removeDemo(); toast(`${n} demo records removed. Publish to update the site.`); } catch (x) { dbError(x, 'Removing demo data'); }
+                b.disabled = false;
+            } } }, 'Remove demo data'))),
         h('div.card', h('h2', 'Rules for the new project'), h('p.muted', { style: { margin: '6px 0 12px' } }, 'Paste these into the new project’s Firebase console (Firestore → Rules, Storage → Rules) and Publish — or Brad/Claude deploy them from firebase/*.rules.'),
             h('div.row', h('button.btn.btn--ghost', { type: 'button', on: { click: () => show('Firestore rules', fsRules) } }, 'Show Firestore rules'), h('button.btn.btn--ghost', { type: 'button', on: { click: () => show('Storage rules', stRules) } }, 'Show Storage rules'))),
         h('div.card', h('h2', 'Photo copy (CORS)'), h('p.muted', { style: { margin: '6px 0 12px' } }, 'Copying photos to a new project downloads them in this browser, which the old storage bucket must allow once:'),

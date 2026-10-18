@@ -49,6 +49,7 @@ stopped them until you approve. Each one only touches Firefly's own part.
 ## D. Switch on security
 - [ ] `public/admin/js/config.js` → `AUTH_REQUIRED = true`.
 - [ ] `firebase/firestore.rules` and `storage.rules` → `fireflyOpenForTesting()` returns `false`. Deploy.
+- [ ] ERP → Settings → System → **Remove demo data** (demo records are also left out of the site automatically once `LAUNCHED` is true).
 - [ ] Remove the ERP shortcut (header `erp-btn` + menu `nav__erp` in `scripts/lib.mjs`, and its CSS at the end of site.css).
 - [ ] Remove the Report / Request test button: the header button in `scripts/lib.mjs`, the `requests.js` script tag,
       `REQUESTS` in `scripts/site.mjs`, `public/assets/requests.js`, and the `firefly_requests` rules block.

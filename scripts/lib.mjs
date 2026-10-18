@@ -213,7 +213,7 @@ function footer(C) {
 export const reviewCard = (C, r, { big = false } = {}) => `<figure class="review${big ? ' review--big' : ''}" data-tags="${esc((r.tags || []).join(' '))}">
   <span class="review__mark" aria-hidden="true">“</span>${stars(r.rating || 5)}
   <blockquote>${esc(r.text)}</blockquote>
-  <figcaption><strong>${esc(r.name)}</strong><span>${icon.google} Google review</span></figcaption>
+  <figcaption><strong>${esc(r.name)}</strong><span>${r.source === 'demo' ? 'Demo review (testing)' : `${icon.google} Google review`}</span></figcaption>
 </figure>`;
 
 export function reviewsCarousel(C, list, { head = true } = {}) {

@@ -6,7 +6,7 @@
 import { readFileSync } from 'node:fs';
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { SEED } from './site.mjs';
+import { LAUNCHED, SEED } from './site.mjs';
 
 export const FIREBASE = JSON.parse(readFileSync(join(dirname(fileURLToPath(import.meta.url)), '..', 'firebase', 'config.json'), 'utf8'));
 delete FIREBASE._note;
@@ -75,7 +75,10 @@ export async function loadContent() {
         await activeFirebase();
         const got = await Promise.allSettled([list('firefly_site'), list('firefly_reviews'), published()]);
         got.filter((g) => g.status === 'rejected').forEach((g) => console.warn(`(database: ${g.reason.message} — using the seed for that part)`));
-        const [site, reviews, journal] = got.map((g) => (g.status === 'fulfilled' ? g.value : []));
+        const [site, reviewsAll, journalAll] = got.map((g) => (g.status === 'fulfilled' ? g.value : []));
+        // demo records (ERP → Settings → System → demo data) only ever appear on the test site
+        const real = (list) => (LAUNCHED ? list.filter((x) => !x.demo) : list);
+        const reviews = real(reviewsAll), journal = real(journalAll);
         for (const d of site) {
             const k = CONTENT_KEYS[d.id];
             if (k && d.value !== undefined && d.value !== null) { C[k] = Array.isArray(C[k]) || typeof d.value !== 'object' || Array.isArray(d.value) ? d.value : { ...C[k], ...d.value }; from.erp.push(d.id); }
