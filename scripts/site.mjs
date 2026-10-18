@@ -232,7 +232,7 @@ export const FAQS = [
 
 // Old site (Squarespace) addresses → new pages, so Google visibility carries over at launch (firebase.json redirects)
 export const REDIRECTS = [
-    ['/about', '/about/'],
+    // (/about needs no entry: the new page has the same address, and Hosting adds the slash itself — an entry loops)
     ['/services-and-pricing', '/pricing/'],
     ['/portfolio/weddings-and-elopements', '/weddings/'],
     ['/portfolio/seniors-42lnx', '/seniors/'],

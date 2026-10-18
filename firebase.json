@@ -43,11 +43,6 @@
     ],
     "redirects": [
       {
-        "source": "/about",
-        "destination": "/about/",
-        "type": 301
-      },
-      {
         "source": "/services-and-pricing",
         "destination": "/pricing/",
         "type": 301
