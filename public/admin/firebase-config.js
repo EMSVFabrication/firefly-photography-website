@@ -1,4 +1,4 @@
-// written by scripts/build.mjs from firebase/config.json
+// written by scripts/render.mjs from firebase/config.json
 export const FIREBASE = {
   "apiKey": "AIzaSyDs9pql2b8EuFncztmpddsX9rEsMEy-W1Q",
   "authDomain": "bic-dev-e2618.firebaseapp.com",

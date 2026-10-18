@@ -114,5 +114,15 @@
         "destination": "/journal/story/index.html"
       }
     ]
-  }
+  },
+  "functions": [
+    {
+      "source": "functions-firefly",
+      "codebase": "firefly",
+      "ignore": [
+        "node_modules",
+        "*.log"
+      ]
+    }
+  ]
 }

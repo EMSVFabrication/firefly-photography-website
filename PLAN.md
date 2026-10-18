@@ -45,7 +45,7 @@ Legend: [x] done · [~] done, waiting on Shelly/Brad for something · [ ] to do
 24. [x] ERP: Portfolio manager (upload, remove, reorder, alt text, covers, homepage images).
 25. [x] ERP: Site content (homepage text/images, About, Experience, service descriptions, FAQs, contact info, packages with a confirm-before-save on price changes).
 26. [x] ERP: Reviews (sync/import, feature selected reviews).
-27. [ ] Publishing: the site reads the ERP's content (static pages for Google + live updates), and a Publish button.
+27. [~] Publishing: the site reads the ERP's content (static pages for Google + live updates), and a Publish button.
 28. [x] ERP: Settings + Firebase move: enter Shelly's new Firebase details, transfer everything (data + photos), verify, switch the site over.
 29. [x] Admin guide for Shelly (how to swap photos, publish an article, edit pricing, etc.).
 

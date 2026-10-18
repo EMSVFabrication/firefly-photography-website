@@ -1,0 +1,12 @@
+{
+  "name": "firefly-functions",
+  "private": true,
+  "type": "module",
+  "main": "index.js",
+  "engines": { "node": "20" },
+  "dependencies": {
+    "firebase-admin": "^13.0.2",
+    "firebase-functions": "^6.2.0",
+    "google-auth-library": "^9.15.0"
+  }
+}
