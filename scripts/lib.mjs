@@ -129,7 +129,10 @@ ${services.map((s) => `          <a href="/${s.slug}/">${img(s.cover, { small: t
       <a href="/about/"${on('/about')}>About</a>
       <a href="/reviews/"${on('/reviews')}>Reviews</a>
       <a class="nav__cta" href="/contact/">Inquire</a>
+      <a class="nav__erp" href="/admin/">Studio ERP ↗</a>
     </nav>
+    <!-- TEST PERIOD (owner 2026-10-17): a way into the ERP from the site; take out before launch with the Report / Request button -->
+    <a class="rq-btn erp-btn" href="/admin/" title="Open the Firefly Studio ERP"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 3h8v8H3V3zm10 0h8v8h-8V3zM3 13h8v8H3v-8zm10 0h8v8h-8v-8z"/></svg><span>ERP</span></a>
     <button class="rq-btn" type="button" data-request title="Report a problem or request a change"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 4h16a2 2 0 012 2v10a2 2 0 01-2 2H9l-5 4v-4H4a2 2 0 01-2-2V6a2 2 0 012-2zm7 3v5h2V7h-2zm0 6.5v2h2v-2h-2z"/></svg><span>Report / Request</span></button>
     <a class="btn btn--gold btn--sm header__book" href="/contact/">Inquire</a>
     <button class="menu" id="menuBtn" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="nav"><span></span><span></span></button>

@@ -890,3 +890,10 @@ body.rq-open { overflow: hidden; }
   .rq__kinds { grid-template-columns: 1fr; }
   .rq__row .btn { flex: 1; }
 }
+
+/* ── ERP shortcut (TEST PERIOD — take out before launch, with the Report / Request button) */
+.erp-btn { text-decoration: none; }
+.erp-btn::after { display: none; }
+.nav__erp { display: none; }
+@media (max-width: 1100px) { .erp-btn { margin-left: auto; } .erp-btn + .rq-btn { margin-left: 4px; } .nav__erp { display: block; color: var(--on-dark-2); font-size: 22px !important; } }
+@media (max-width: 760px) { .erp-btn { display: none; } .erp-btn + .rq-btn { margin-left: auto; } }
