@@ -29,7 +29,7 @@ Legend: [x] done · [~] done, waiting on Shelly/Brad for something · [ ] to do
 12. [x] About page: “Meet Shelly — The Heart Behind Firefly Photography”.
 13. [x] Pricing page: editorial package layout, proof-gallery explanation, value of the experience. Prices unchanged; list anything that needs Shelly's confirmation.
 14. [x] Google reviews: research doc (Business Profile API vs Places API vs third-party), review data model, homepage carousel, Reviews page “Kind Words, Lasting Impressions”, read-on-Google and leave-a-review links.
-15. [ ] Inquiry form: name, email, phone, type, preferred date, location, vision; auto-confirmation email to the client; spam protection; every inquiry also saved to Firebase for the ERP.
+15. [x] Inquiry form: name, email, phone, type, preferred date, location, vision; auto-confirmation email to the client; spam protection; every inquiry also saved to Firebase for the ERP.
 
 ## Priority Two — Journal, SEO, marketing
 16. [x] The Journal: magazine-style index, category pages, article template (cover, full-width images, galleries), first articles drafted.
@@ -38,20 +38,20 @@ Legend: [x] done · [~] done, waiting on Shelly/Brad for something · [ ] to do
 19. [x] Mobile + performance pass: image sizes, lazy loading, fonts, animation cost, contrast, tap targets, forms.
 
 ## ERP (Shelly's back office at /admin)
-20. [~] Firebase layer: `firefly_*` collections, `firefly/` storage, rules block, one config module that can be switched to a new project.
+20. [x] Firebase layer: `firefly_*` collections, `firefly/` storage, rules block, one config module that can be switched to a new project.
 21. [x] ERP shell: layout + navigation (EMSV style), dashboard, login code written but not required.
 22. [x] ERP: Inquiries (list, status, notes, reply links).
 23. [x] ERP: Journal CMS (write, upload photos, drafts, schedule, edit, publish; categories, titles, SEO description, URL, gallery).
 24. [x] ERP: Portfolio manager (upload, remove, reorder, alt text, covers, homepage images).
 25. [x] ERP: Site content (homepage text/images, About, Experience, service descriptions, FAQs, contact info, packages with a confirm-before-save on price changes).
 26. [x] ERP: Reviews (sync/import, feature selected reviews).
-27. [~] Publishing: the site reads the ERP's content (static pages for Google + live updates), and a Publish button.
+27. [x] Publishing: the site reads the ERP's content (static pages for Google + live updates), and a Publish button.
 28. [x] ERP: Settings + Firebase move: enter Shelly's new Firebase details, transfer everything (data + photos), verify, switch the site over.
 29. [x] Admin guide for Shelly (how to swap photos, publish an article, edit pricing, etc.).
 
 ## Finish
 30. [x] Full QA (brief section 16): links, nav labels, galleries, forms, mobile, reduced motion, console errors, sharing previews, CMS round-trips, fireflies preserved.
-31. [~] Publish to the TEST address (firefly-photography.web.app) for Shelly to review.
+31. [x] Publish to the TEST address (firefly-photography.web.app) for Shelly to review.
 32. [x] Pre-launch checklist written (`docs/launch-checklist.md`) with everything that needs Shelly/Brad.
 
 ## Launch (later — not in this run)

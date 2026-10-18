@@ -2,7 +2,7 @@
 
 The redesign is built and tested on this PC. Nothing below has been done to the live domain. Work through it in order.
 
-## A. Waiting on Brad's OK (blocked during the build)
+## A. Done 2026-10-17 (rules, Publish function and test site deployed with Brad’s OK)
 These change the **shared** Firebase project (`bic-dev-e2618`, also used by BIC and ASAP), so the automatic safety check
 stopped them until you approve. Each one only touches Firefly's own part.
 1. **Deploy the Firefly database rules.** `npm run sync-rules` (copies Firefly's block into `..\BIC App\*.rules`), then
