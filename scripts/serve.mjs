@@ -11,6 +11,8 @@ createServer((req, res) => {
     let file = join(PUB, path);
     if (!file.startsWith(PUB)) { res.writeHead(403).end(); return; }
     if (existsSync(file) && statSync(file).isDirectory()) file = join(file, 'index.html');
-    if (!existsSync(file)) { res.writeHead(404, { 'Content-Type': 'text/plain' }).end('Not found'); return; }
+    // like Firebase Hosting: a new Journal story → the live story page; anything else missing → the 404 page
+    if (!existsSync(file) && /^journal[\/][a-z0-9-]+[\/]?$/.test(path)) file = join(PUB, 'journal', 'story', 'index.html');
+    if (!existsSync(file)) { res.writeHead(404, { 'Content-Type': 'text/html; charset=utf-8' }).end(readFileSync(join(PUB, '404.html'))); return; }
     res.writeHead(200, { 'Content-Type': TYPES[extname(file)] || 'application/octet-stream', 'Cache-Control': 'no-store' }).end(readFileSync(file));
 }).listen(5210, () => console.log('Firefly Photography: http://localhost:5210'));

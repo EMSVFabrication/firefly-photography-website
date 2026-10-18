@@ -11,6 +11,9 @@ import { fileURLToPath } from 'node:url';
 import { JOURNAL } from './journal-seed.mjs';
 
 export const SITE = 'https://firefly-photography.web.app'; // becomes https://www.fireflyphotography.org at launch
+// TEST PERIOD: false keeps search engines away from the test address (robots.txt + noindex on every page), so it
+// can't compete with the old site on Google. Set true at launch, together with SITE.
+export const LAUNCHED = false;
 
 // System Requests (the "Report / Request" button at the top, like the ASAP, BIC, STLFIT and EMSV sites): notes are saved
 // in the shared Firebase project's database, collection firefly_requests (rules: the Firefly block in ..\BIC App\firestore.rules).

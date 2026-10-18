@@ -50,9 +50,9 @@ Legend: [x] done · [~] done, waiting on Shelly/Brad for something · [ ] to do
 29. [x] Admin guide for Shelly (how to swap photos, publish an article, edit pricing, etc.).
 
 ## Finish
-30. [ ] Full QA (brief section 16): links, nav labels, galleries, forms, mobile, reduced motion, console errors, sharing previews, CMS round-trips, fireflies preserved.
-31. [ ] Publish to the TEST address (firefly-photography.web.app) for Shelly to review.
-32. [ ] Pre-launch checklist written (`docs/launch-checklist.md`) with everything that needs Shelly/Brad.
+30. [x] Full QA (brief section 16): links, nav labels, galleries, forms, mobile, reduced motion, console errors, sharing previews, CMS round-trips, fireflies preserved.
+31. [~] Publish to the TEST address (firefly-photography.web.app) for Shelly to review.
+32. [x] Pre-launch checklist written (`docs/launch-checklist.md`) with everything that needs Shelly/Brad.
 
 ## Launch (later — not in this run)
 - Move to Shelly's own Firebase (ERP → Settings → Move Firebase).

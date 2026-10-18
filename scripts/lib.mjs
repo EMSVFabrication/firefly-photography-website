@@ -63,7 +63,7 @@ export function page(C, { path, title, description, image, body, dark = true, ld
   <title>${esc(title)}</title>
   <meta name="description" content="${esc(description)}">
   <link rel="canonical" href="${canonical}">
-  ${noindex ? '<meta name="robots" content="noindex">' : ''}
+  ${noindex ? '<meta name="robots" content="noindex">' : C.LAUNCHED ? '' : '<meta name="robots" content="noindex" data-test-site>'}
   ${SETTINGS.gscVerification ? `<meta name="google-site-verification" content="${esc(SETTINGS.gscVerification)}">` : ''}
   <meta name="theme-color" content="#1b1917">
   <link rel="icon" href="/favicon-48.png" type="image/png" sizes="48x48">

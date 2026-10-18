@@ -5,7 +5,7 @@ import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { FIREBASE, loadContent } from './content.mjs';
 import * as P from './pages.mjs';
-import { REDIRECTS, REQUESTS, SEED, SITE } from './site.mjs';
+import { LAUNCHED, REDIRECTS, REQUESTS, SEED, SITE } from './site.mjs';
 
 const HERE = dirname(fileURLToPath(import.meta.url));
 const PHOTOS = JSON.parse(readFileSync(join(HERE, 'photos.json'), 'utf8'));
@@ -61,7 +61,7 @@ export async function renderSite() {
         .map((a) => ({ ...a, bodyHtml: cleanBody(a.body) }));
     const scheduled = (raw.JOURNAL || []).filter((a) => a.status === 'published' && Date.parse(a.publishAt || 0) > now).map((a) => a.publishAt).sort();
     const services = raw.SERVICES.filter((s) => !s.boudoir || raw.SETTINGS.showBoudoir);
-    const C = { ...raw, SITE, REQUESTS, FIREBASE, VERSION: now.toString(36), services, posts };
+    const C = { ...raw, SITE, LAUNCHED, REQUESTS, FIREBASE, VERSION: now.toString(36), services, posts };
 
     const pages = [
         P.home(C), P.portfolio(C), ...services.map((s, i) => P.service(C, s, i)), P.experience(C), P.pricing(C), P.about(C), P.reviews(C), P.contact(C),
@@ -76,7 +76,8 @@ export async function renderSite() {
     const listed = pages.map((o) => o.path).filter((p) => p !== '/journal/story/');
     const lastmod = (p) => { const a = posts.find((x) => `/journal/${x.slug}/` === p); return (a ? (a.updatedAt || a.publishAt) : new Date().toISOString()).slice(0, 10); };
     files['sitemap.xml'] = `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${listed.map((p) => `  <url><loc>${SITE}${p}</loc><lastmod>${lastmod(p)}</lastmod></url>`).join('\n')}\n</urlset>\n`;
-    files['robots.txt'] = `User-agent: *\nAllow: /\nDisallow: /admin/\n\nSitemap: ${SITE}/sitemap.xml\n`;
+    files['robots.txt'] = LAUNCHED ? `User-agent: *\nAllow: /\nDisallow: /admin/\n\nSitemap: ${SITE}/sitemap.xml\n`
+        : 'User-agent: *\nDisallow: /\n# test site: search engines stay away until launch (scripts/site.mjs LAUNCHED)\n';
 
     // the ERP: the same Firebase settings, the starting content (shown until something is saved), the site's own photos
     // (for the photo picker) and the rules (Settings → System, for a new project)

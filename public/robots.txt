@@ -1,5 +1,3 @@
 User-agent: *
-Allow: /
-Disallow: /admin/
-
-Sitemap: https://firefly-photography.web.app/sitemap.xml
+Disallow: /
+# test site: search engines stay away until launch (scripts/site.mjs LAUNCHED)
