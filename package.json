@@ -5,11 +5,16 @@
   "scripts": {
     "build": "node scripts/build.mjs",
     "serve": "node scripts/serve.mjs",
-    "deploy": "node scripts/build.mjs && node \"../BIC App/node_modules/firebase-tools/lib/bin/firebase.js\" deploy --only hosting:firefly-photography --project bic-dev-e2618 --non-interactive",
     "check": "node scripts/check.mjs",
+    "use-firebase": "node scripts/use-firebase.mjs",
+    "deploy": "node scripts/fb.mjs hosting",
+    "deploy-rules": "node scripts/fb.mjs rules",
+    "deploy-functions": "node scripts/fb.mjs functions",
+    "deploy-all": "node scripts/fb.mjs all",
     "prepare-functions": "node scripts/prepare-functions.mjs",
-    "sync-rules": "node scripts/sync-rules.mjs",
-    "deploy-rules": "cd \"../BIC App\" && node \"node_modules/firebase-tools/lib/bin/firebase.js\" deploy --only firestore:rules,storage --project bic-dev-e2618 --non-interactive",
-    "deploy-functions": "node scripts/prepare-functions.mjs && cd functions-firefly && npm install --no-audit --no-fund && cd .. && node \"../BIC App/node_modules/firebase-tools/lib/bin/firebase.js\" deploy --only functions:firefly --project bic-dev-e2618 --non-interactive"
+    "sync-rules": "node scripts/sync-rules.mjs"
+  },
+  "devDependencies": {
+    "firebase-tools": "^14.27.0"
   }
 }

@@ -3,3 +3,4 @@ node_modules/
 *.log
 functions-firefly/node_modules/
 functions-firefly/site/
+firebase/new-project.txt

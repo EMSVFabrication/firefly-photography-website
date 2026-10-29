@@ -16,7 +16,17 @@ import { gzipSync } from 'node:zlib';
 
 initializeApp();
 const db = getFirestore();
-const SITE_ID = process.env.FIREFLY_HOSTING_SITE || 'firefly-photography';
+const PROJECT = process.env.GCLOUD_PROJECT || process.env.GOOGLE_CLOUD_PROJECT || '';
+// the hosting site to release to: the shared BIC project's "firefly-photography" site, or the project's own default site
+let siteCache = process.env.FIREFLY_HOSTING_SITE || (PROJECT === 'bic-dev-e2618' ? 'firefly-photography' : '');
+async function siteId() {
+    if (siteCache) return siteCache;
+    const list = await call('GET', `projects/${PROJECT}/sites`);
+    const s = (list.sites || []).find((x) => x.type === 'DEFAULT_SITE') || (list.sites || [])[0];
+    if (!s) throw new Error('This Firebase project has no hosting site yet — deploy the website once from the computer (npm run deploy).');
+    siteCache = s.name.split('/').pop();
+    return siteCache;
+}
 const API = 'https://firebasehosting.googleapis.com/v1beta1';
 const META = db.doc('firefly_meta/publish');
 const auth = new GoogleAuth({ scopes: ['https://www.googleapis.com/auth/cloud-platform'] });
@@ -43,7 +53,7 @@ function versionConfig(h) {
 }
 
 async function liveFiles() {
-    const rel = await call('GET', `sites/${SITE_ID}/releases?pageSize=1`);
+    const rel = await call('GET', `sites/${await siteId()}/releases?pageSize=1`);
     const version = rel.releases?.[0]?.version?.name;
     if (!version) throw new Error('No live version of the site yet — publish once from the PC (npm run deploy).');
     const files = {};
@@ -79,14 +89,14 @@ async function publish(reason, by) {
             const hash = createHash('sha256').update(gz).digest('hex');
             all[`/${path}`] = hash; uploads[hash] = gz;
         }
-        const version = await call('POST', `sites/${SITE_ID}/versions`, { config: versionConfig(hosting), labels: { source: 'firefly-erp' } });
+        const version = await call('POST', `sites/${await siteId()}/versions`, { config: versionConfig(hosting), labels: { source: 'firefly-erp' } });
         const pop = await call('POST', `${version.name}:populateFiles`, { files: all });
         for (const hash of pop.uploadRequiredHashes || []) {
             if (!uploads[hash]) throw new Error(`Hosting asked for a file this build doesn't have (${hash.slice(0, 10)}…)`);
             await call('POST', `${pop.uploadUrl}/${hash}`, null, uploads[hash]);
         }
         await call('PATCH', `${version.name}?update_mask=status`, { status: 'FINALIZED' });
-        await call('POST', `sites/${SITE_ID}/releases?versionName=${version.name}`, { message: `ERP publish (${reason})` });
+        await call('POST', `sites/${await siteId()}/releases?versionName=${version.name}`, { message: `ERP publish (${reason})` });
         await META.set({ state: 'done', pending: false, publishedAt: new Date().toISOString(), message: `${stats.pages} pages, ${stats.posts} stories`, nextScheduled: stats.nextScheduled, version: version.name }, { merge: true });
         logger.info(`Published ${stats.pages} pages (${(pop.uploadRequiredHashes || []).length} files uploaded).`);
     } catch (e) {

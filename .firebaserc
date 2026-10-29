@@ -1,0 +1,14 @@
+{
+  "projects": {
+    "default": "bic-dev-e2618"
+  },
+  "targets": {
+    "bic-dev-e2618": {
+      "hosting": {
+        "site": [
+          "firefly-photography"
+        ]
+      }
+    }
+  }
+}

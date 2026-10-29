@@ -1,6 +1,6 @@
 {
   "hosting": {
-    "site": "firefly-photography",
+    "target": "site",
     "public": "public",
     "cleanUrls": true,
     "trailingSlash": true,
@@ -119,5 +119,11 @@
         "*.log"
       ]
     }
-  ]
+  ],
+  "firestore": {
+    "rules": "firebase/firestore.rules"
+  },
+  "storage": {
+    "rules": "firebase/storage.rules"
+  }
 }

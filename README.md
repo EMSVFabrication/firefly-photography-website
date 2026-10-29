@@ -16,12 +16,15 @@ Redesign plan and progress: `PLAN.md`. What's left before launch: `docs/launch-c
 - `firebase/`: which Firebase project is used (`config.json`) and Firefly's rules (`firestore.rules`, `storage.rules`).
 
 ## Commands
+- `npm install`: once (includes the Firebase tools).
 - `npm run serve`: the site on this PC at http://localhost:5210 (ERP at /admin/).
 - `npm run build`: build `public/` (reads the ERP's saved content; `FF_OFFLINE=1` = seed only).
 - `npm run check`: broken links, missing alt text, titles and descriptions, one H1 per page.
-- `npm run deploy`: build + publish to https://firefly-photography.web.app (test site, kept out of Google until `LAUNCHED`).
-- `npm run sync-rules` then `npm run deploy-rules`: Firefly's rules into the shared project (`..\BIC App` rules files).
-- `npm run deploy-functions`: the Publish function (codebase `firefly`; never touches BIC/ASAP functions).
+- `npm run use-firebase`: point the folder at a Firebase project (`firebase/config.json` + `.firebaserc`).
+- `npm run deploy` (website), `deploy-rules`, `deploy-functions`, `deploy-all`: to the project in `.firebaserc`.
+  In the shared project, rules are deployed as the Firefly block only (through `..\BIC App`).
+
+**Moving to Shelly's laptop and Firebase:** `docs/handover.md`.
 
 ## Shared Firebase (temporary)
 Firefly borrows the ASAP/BIC project `bic-dev-e2618` until launch. ERP → Settings → Move Firebase copies everything to

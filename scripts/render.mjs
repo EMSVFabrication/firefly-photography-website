@@ -61,7 +61,7 @@ export async function renderSite() {
         .map((a) => ({ ...a, bodyHtml: cleanBody(a.body) }));
     const scheduled = (raw.JOURNAL || []).filter((a) => a.status === 'published' && Date.parse(a.publishAt || 0) > now).map((a) => a.publishAt).sort();
     const services = raw.SERVICES.filter((s) => !s.boudoir || raw.SETTINGS.showBoudoir);
-    const C = { ...raw, SITE, LAUNCHED, REQUESTS, FIREBASE, VERSION: now.toString(36), services, posts };
+    const C = { ...raw, SITE, LAUNCHED, REQUESTS: { ...REQUESTS, project: FIREBASE.projectId, apiKey: FIREBASE.apiKey }, FIREBASE, VERSION: now.toString(36), services, posts };
 
     const pages = [
         P.home(C), P.portfolio(C), ...services.map((s, i) => P.service(C, s, i)), P.experience(C), P.pricing(C), P.about(C), P.reviews(C), P.contact(C),

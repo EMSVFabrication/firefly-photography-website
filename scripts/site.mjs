@@ -19,6 +19,7 @@ export const LAUNCHED = false;
 // in the shared Firebase project's database, collection firefly_requests (rules: the Firefly block in ..\BIC App\firestore.rules).
 // This is the project's public web key — it is meant to be in web pages; the database rules decide what it may do.
 // TEST PERIOD (owner 2026-10-16): the button shows for everyone; take it out before the site goes live.
+// (project and apiKey are filled in from firebase/config.json at build time, so the notes follow a Firebase move)
 export const REQUESTS = { project: 'bic-dev-e2618', apiKey: 'AIzaSyDs9pql2b8EuFncztmpddsX9rEsMEy-W1Q', collection: 'firefly_requests' };
 
 const PHOTOS = JSON.parse(readFileSync(join(dirname(fileURLToPath(import.meta.url)), 'photos.json'), 'utf8'));
