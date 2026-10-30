@@ -6,9 +6,6 @@ About 30–45 minutes. Do it together on her laptop, signed in to **her** Google
 1. **Node.js** — https://nodejs.org → download the **LTS** version → install with the default options.
 2. **Git** — https://git-scm.com/downloads → install with the default options.
 3. **Claude Code** — https://claude.com/claude-code → install the desktop app (or the CLI) and sign in with her Claude account.
-4. **GitHub access** — the code lives in a private repository. Brad invites her GitHub account
-   (github.com → the repository → Settings → Collaborators → Add people). She accepts the email invite.
-   *(No GitHub account? She makes a free one at github.com/signup first.)*
 
 ## 2. Download the code
 Open **Terminal** (Mac) or **PowerShell** (Windows) and run these one at a time:
@@ -29,7 +26,7 @@ cd "Firefly Photography website"
 npm install
 ```
 
-The first time, git asks her to sign in to GitHub in the browser — approve it. `npm install` takes a minute or two.
+No GitHub login is needed to download. `npm install` takes a minute or two.
 
 ## 3. Connect her Firebase
 1. Sign the Firebase tools in to her Google account:
@@ -77,7 +74,9 @@ Brad to run. Right now there are no uploaded photos to copy, so this shouldn't c
 In the project folder, open Claude Code (desktop app: **Open folder** → choose "Firefly Photography website"; CLI: run `claude`
 in that folder) and say:
 
-> Commit the switch to my Firebase project and push it to GitHub.
+> Commit the switch to my Firebase project.
+
+(Saving changes back to GitHub needs a GitHub account with access to the repository. Without one, her changes stay safely on her laptop.)
 
 From then on she can ask Claude Code for changes in plain words — for example *"Do the system requests"*, *"Add a FAQ about
 pets"*, or *"Deploy the website"*. `CLAUDE.md` in the folder tells Claude how everything works and what not to touch
